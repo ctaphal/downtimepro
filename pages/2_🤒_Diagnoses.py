@@ -42,6 +42,8 @@ def cmpltTask(task):
 
 def listTasks():
     st.session_state.tskclk = []
+    st.markdown("")
+    st.subheader("Patient's Diagnoses: ")
     for i, task in enumerate(st.session_state.mytsks):
         st.text_area(task, placeholder="Add note")
 
