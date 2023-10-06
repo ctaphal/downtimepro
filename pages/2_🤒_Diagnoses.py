@@ -43,7 +43,7 @@ def cmpltTask(task):
 def listTasks():
     st.session_state.tskclk = []
     for i, task in enumerate(st.session_state.mytsks):
-        st.markdown(task)
+        st.text_area(task, placeholder="Add note")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False
