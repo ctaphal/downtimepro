@@ -45,7 +45,7 @@ def listTasks():
     st.markdown("")
     st.subheader("Patient's Diagnoses: ")
     for i, task in enumerate(st.session_state.mytsks):
-        st.text_area(task, placeholder="Add note")
+        st.text_area(f"**{task}**", placeholder="Add note")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False
