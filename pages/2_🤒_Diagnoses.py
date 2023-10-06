@@ -19,32 +19,41 @@ import numpy as np
 import streamlit as st
 from streamlit.hello.utils import show_code
 
+import streamlit as st
+from datetime import datetime as dt
 
-def pt_dem() -> None:
-    st.subheader("Personal Information")
-    fname = st.text_input("First name")
-    lname = st.text_input("Last name")
-    dob = st.text_input("DOB")
-    ethnicity_race = st.text_input("Ethnicity/Race")
-    age = st.text_input("Age")
-    gender = st.text_input("Gender")
-    height = st.text_input("Height (in)")
-    weight = st.text_input("Weight (lbs)")
+if "mytsks" not in st.session_state:
+    st.session_state.mytsks = []
 
-    ## next line is a spacer
-    st.markdown("")
-    st.subheader("Address")
-    st_address = st.text_input("Street Address")
-    city = st.text_input("City")
-    zip_code = st.text_input("Zip Code")
+if "tskclk" not in st.session_state:
+    st.session_state.tskclk = []
 
-    ## next line is a spacer
-    st.markdown("")
-    st.subheader("Insurance")
-    insurance_provider = st.text_input("Insurance Provider")
-    insurance_num = st.text_input("Insurance Member ID")
+if "chkarr" not in st.session_state:
+    st.session_state.chkarr = []
 
-st.set_page_config(page_title="Patient Information", page_icon="🧑")
-st.markdown("# Patient Information")
+if "rerun" not in st.session_state:
+    st.session_state.rerun = False
 
-pt_dem()
+
+def cmpltTask(task):
+    idx = st.session_state.mytsks.index(task)
+    st.session_state.chkarr[idx] = not st.session_state.chkarr[idx]
+    st.session_state.rerun = True
+
+def listTasks():
+    st.session_state.tskclk = []
+    for i, task in enumerate(st.session_state.mytsks):
+        st.markdown(task)
+
+if st.session_state.rerun == True:
+    st.session_state.rerun = False
+    st.experimental_rerun()
+
+else:
+    tsk = st.text_input('Enter Systematized Nomenclature of Medicine (SNOMED) Diagnosis', value="")
+    if st.button('Add Diagnosis'):
+        if tsk != "":
+            st.session_state.mytsks.append(tsk)
+            st.session_state.chkarr.append(False)
+
+listTasks()
