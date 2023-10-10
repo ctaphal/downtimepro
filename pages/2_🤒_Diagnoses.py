@@ -18,9 +18,12 @@ import numpy as np
 
 import streamlit as st
 from streamlit.hello.utils import show_code
+from storage import diagnoses_store
 
 import streamlit as st
 from datetime import datetime as dt
+
+# some of this file's code is from another source (Google how to make a checklist using Streamlit to try to find the source)
 
 if "mytsks" not in st.session_state:
     st.session_state.mytsks = []
@@ -45,16 +48,22 @@ def listTasks():
     st.markdown("")
     st.subheader("Patient's Diagnoses: ")
     for i, task in enumerate(st.session_state.mytsks):
-        st.text_area(f"**{task}**", placeholder="Add note")
+        if (diagnoses_store[task]==""):
+            st.write(f"**- {task}**")
+        else: 
+            st.write(f"- **{task}**: {note}")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False
     st.experimental_rerun()
 
 else:
-    tsk = st.text_input('Enter Systematized Nomenclature of Medicine (SNOMED) Diagnosis', value="")
+    tsk = st.text_input('**Enter Systematized Nomenclature of Medicine (SNOMED) Diagnosis**', value="")
+    note = ""
+    note = st.text_input('Add optional note')
     if st.button('Add Diagnosis'):
         if tsk != "":
+            diagnoses_store[tsk]=note
             st.session_state.mytsks.append(tsk)
             st.session_state.chkarr.append(False)
 

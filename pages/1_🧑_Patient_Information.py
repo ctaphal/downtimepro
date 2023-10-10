@@ -18,6 +18,7 @@ import numpy as np
 
 import streamlit as st
 from streamlit.hello.utils import show_code
+from storage import pt_info
 
 
 def pt_dem() -> None:
@@ -44,6 +45,9 @@ def pt_dem() -> None:
     insurance_provider = st.text_input("Insurance Provider")
     insurance_num = st.text_input("Insurance Member ID")
 
+    if (st.button("Save")):
+        # not sure if the following line works as intended to save the entered info into the storage.py file
+        pt_info = [fname, lname, dob, ethnicity_race, age, gender, height, weight, st_address, city, zip_code, insurance_provider, insurance_num]
 st.set_page_config(page_title="Patient Information", page_icon="🧑")
 st.markdown("# Patient Information")
 

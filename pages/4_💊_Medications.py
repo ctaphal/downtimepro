@@ -21,6 +21,9 @@ from streamlit.hello.utils import show_code
 
 import streamlit as st
 from datetime import datetime as dt
+from storage import meds_store
+
+# some of this file's code is from another source (Google how to make a checklist using Streamlit to try to find the source)
 
 if "mytsks" not in st.session_state:
     st.session_state.mytsks = []
@@ -45,7 +48,7 @@ def listTasks():
     st.markdown("")
     st.subheader("Patient's Medications: ")
     for i, task in enumerate(st.session_state.mytsks):
-        st.markdown(f"**{task}**")
+        st.markdown(f"**- {task}**")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False
@@ -55,6 +58,7 @@ else:
     tsk = st.text_input("Enter Patient's Medications (one by one)", value="")
     if st.button('Add Medication'):
         if tsk != "":
+            meds_store.append(tsk)
             st.session_state.mytsks.append(tsk)
             st.session_state.chkarr.append(False)
 
