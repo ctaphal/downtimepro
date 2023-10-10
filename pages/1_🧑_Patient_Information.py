@@ -22,6 +22,8 @@ from storage import pt_info
 
 
 def pt_dem() -> None:
+    st.write('**Must click "Save" button** at the bottom of the page to save patient info')
+
     st.subheader("Personal Information")
     fname = st.text_input("First name")
     lname = st.text_input("Last name")
@@ -46,8 +48,8 @@ def pt_dem() -> None:
     insurance_num = st.text_input("Insurance Member ID")
 
     if (st.button("Save")):
-        # not sure if the following line works as intended to save the entered info into the storage.py file
-        pt_info = [fname, lname, dob, ethnicity_race, age, gender, height, weight, st_address, city, zip_code, insurance_provider, insurance_num]
+        # rework following line so that multiple entries for the same pt can't be saved in the pt_info list
+        pt_info.append([fname, lname, dob, ethnicity_race, age, gender, height, weight, st_address, city, zip_code, insurance_provider, insurance_num])
 st.set_page_config(page_title="Patient Information", page_icon="🧑")
 st.markdown("# Patient Information")
 

@@ -26,7 +26,7 @@ def run():
 
     st.write("# DowntimePro")
 
-    st.sidebar.success("Select a demo above.")
+    st.sidebar.header("")
 
     st.markdown(
         "Welcome to DowntimePro, your documentation aid during EHR downtimes!"
