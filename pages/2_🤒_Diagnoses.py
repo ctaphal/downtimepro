@@ -47,11 +47,13 @@ def listTasks():
     st.session_state.tskclk = []
     st.markdown("")
     st.subheader("Patient's Diagnoses: ")
-    for i, task in enumerate(st.session_state.mytsks):
-        if (diagnoses_store[task]==""):
-            st.write(f"**- {task}**")
+    diag_keys = list(diagnoses_store.keys())
+    diag_vals = list(diagnoses_store.values())
+    for i in range(0,len(diag_keys)):
+        if (diag_vals[i]==""):
+            st.write(f"- **{diag_keys[i]}**")
         else: 
-            st.write(f"- **{task}**: {note}")
+            st.write(f"- **{diag_keys[i]}**: {diag_vals[i]}")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False

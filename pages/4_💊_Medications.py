@@ -47,8 +47,8 @@ def listTasks():
     st.session_state.tskclk = []
     st.markdown("")
     st.subheader("Patient's Medications: ")
-    for a_med in (st.session_state.mytsks):
-        st.markdown(f"**- {a_med}**")
+    for a_med in meds_store:
+        st.markdown(f"- **{a_med}**")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False

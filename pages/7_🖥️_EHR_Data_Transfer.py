@@ -84,14 +84,15 @@ def save_to_Excel(pt_df, diag_df, vitals_df, meds_df):
             worksheet.write(cell, str(meds_store[i]))
 
     if vitals_store!=[]:
+        worksheet.write('I1', "Vitals")
         for i in range(0, len(vitals_cols)):
-            cell = 'I'+str(i+1)
+            cell = 'I'+str(i+2)
             worksheet.write(cell, str(vitals_cols[i]))
 
         asc = 74
         for i in range(0, len(vitals_store)):
             for j in range(0, len(vitals_store[0])):
-                cell = str(chr(asc)+str(j+1))
+                cell = str(chr(asc)+str(j+2))
                 worksheet.write(cell, str(vitals_store[i][j]))
             asc = asc+1
 
