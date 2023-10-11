@@ -56,11 +56,12 @@ def save_to_Excel(pt_df, diag_df, vitals_df, meds_df):
     worksheet = workbook.add_worksheet("Pt Record")
 
     if pt_info!=[]:
+        worksheet.write('A1', "Pt Info")
         for i in range(0, len(pt_cols)):
-            cell = 'A'+str(i+1)
+            cell = 'A'+str(i+2)
             worksheet.write(cell, str(pt_cols[i]))
         for i in range(0, len(pt_info[0])):
-            cell = 'B'+str(i+1)
+            cell = 'B'+str(i+2)
             worksheet.write(cell, str(pt_info[0][i]))
 
     if diagnoses_store!={}:
@@ -98,7 +99,7 @@ def save_to_Excel(pt_df, diag_df, vitals_df, meds_df):
 
     workbook.close()
     st.download_button(
-        label="Download Excel workbook",
+        label="Download as Excel Sheet",
         data=output.getvalue(),
         file_name="DowntimeProRecord.xlsx",
         mime="application/vnd.ms-excel"
