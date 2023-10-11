@@ -24,12 +24,20 @@ def run():
         page_icon="📝",
     )
 
-    st.write("# DowntimePro")
+    st.write("# DowntimePro 📝")
 
     st.sidebar.header("")
 
     st.markdown(
-        "Welcome to DowntimePro, your documentation aid during EHR downtimes!"
+        "**Welcome to DowntimePro, your documentation aid during EHR downtimes!**"
+    )
+
+    st.header("Simple to use!")
+    st. markdown(
+        '1. Document using the tabs on the left'
+    )
+    st.markdown(
+        '2. Navigate to the "🖥️ EHR Data Transfer" tab to easily copy/paste your notes or download an Excel sheet containing them!'
     )
 
 
