@@ -37,7 +37,7 @@ if "chkarr" not in st.session_state:
 if "rerun" not in st.session_state:
     st.session_state.rerun = False
 
-
+@st.cache
 def cmpltTask(task):
     idx = st.session_state.mytsks.index(task)
     st.session_state.chkarr[idx] = not st.session_state.chkarr[idx]

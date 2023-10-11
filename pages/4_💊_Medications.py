@@ -38,8 +38,8 @@ if "rerun" not in st.session_state:
     st.session_state.rerun = False
 
 
-def cmpltTask(task):
-    idx = st.session_state.mytsks.index(task)
+def cmpltTask(a_med):
+    idx = st.session_state.mytsks.index(a_med)
     st.session_state.chkarr[idx] = not st.session_state.chkarr[idx]
     st.session_state.rerun = True
 
@@ -47,19 +47,19 @@ def listTasks():
     st.session_state.tskclk = []
     st.markdown("")
     st.subheader("Patient's Medications: ")
-    for i, task in enumerate(st.session_state.mytsks):
-        st.markdown(f"**- {task}**")
+    for a_med in (st.session_state.mytsks):
+        st.markdown(f"**- {a_med}**")
 
 if st.session_state.rerun == True:
     st.session_state.rerun = False
     st.experimental_rerun()
 
 else:
-    tsk = st.text_input("Enter Patient's Medications (one by one)", value="")
+    med = st.text_input("Enter Patient's Medications (one by one)", value="")
     if st.button('Add Medication'):
-        if tsk != "":
-            meds_store.append(tsk)
-            st.session_state.mytsks.append(tsk)
+        if med != "":
+            meds_store.append(med)
+            st.session_state.mytsks.append(med)
             st.session_state.chkarr.append(False)
 
 listTasks()

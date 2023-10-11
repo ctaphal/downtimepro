@@ -15,29 +15,31 @@
 import altair as alt
 import pandas as pd
 import io
+import xlsxwriter
 import streamlit as st
 from storage import pt_info
 from storage import diagnoses_store
 from storage import vitals_store
 from storage import meds_store
-        
+
+pt_cols = ["First Name", "Last Name", "DOB", "Ethnicity/Race", "Age", "Gender", "Height (in)", "Weight (lbs)", "Street Address", "City", "Zip Code", "Insurance Provider", "Insurance Member ID" ]
+vitals_cols = ["Date", "Time", "HR", "BP", "SpO2", "Respirations", "Notes"]
+diag_keys = list(diagnoses_store.keys())
+diag_vals = list(diagnoses_store.values())
+
 def data_frame_demo():
-        cols = ["First Name", "Last Name", "DOB", "Ethnicity/Race", "Age", "Gender", "Height (in)", "Weight (lbs)", "Street Address", "City", "Zip Code", "Insurance Provider", "Insurance Member ID" ]
         st.subheader("Patient Information")
-        pt_df = pd.DataFrame(pt_info, columns=cols)
+        pt_df = pd.DataFrame(pt_info, columns=pt_cols)
         st.dataframe(pt_df)
 
     
         st.subheader("Diagnoses")
-        diag_keys = diagnoses_store.keys()
-        diag_vals = list(diagnoses_store.values())
         diag_df = pd.DataFrame(list(zip(diag_keys, diag_vals)),
                   columns =['Diagnosis', 'Note'])
         st.dataframe(diag_df)
 
-        cols = ["Date", "Time", "HR", "BP", "SpO2", "Respirations", "Notes"]
         st.subheader("Vital Signs")
-        vitals_df = pd.DataFrame(vitals_store, columns=cols)
+        vitals_df = pd.DataFrame(vitals_store, columns=vitals_cols)
         st.dataframe(vitals_df)
 
         st.subheader("Medications")
@@ -47,20 +49,59 @@ def data_frame_demo():
         save_to_Excel(pt_df, diag_df, vitals_df, meds_df)
 
 def save_to_Excel(pt_df, diag_df, vitals_df, meds_df):
-        buffer = io.BytesIO()
-        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-        # Write each dataframe to a different worksheet.
-            pt_df.to_excel(writer, sheet_name='Pt Info', index=False)
-            diag_df.to_excel(writer, sheet_name='Diagnoses', index=False)
-            vitals_df.to_excel(writer, sheet_name='Vitals', index=False)
-            meds_df.to_excel(writer, sheet_name='Meds', index=False)
+    # Write files to in-memory strings using BytesIO
+    # See: https://xlsxwriter.readthedocs.io/workbook.html?highlight=BytesIO#constructor
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    worksheet = workbook.add_worksheet("Pt Record")
 
-            st.download_button(
-                label="Download Data as Excel",
-                data=buffer,
-                file_name='downtimeProRecord.xls',
-                mime='application/vnd.ms-excel'
-            )
+    if pt_info!=[]:
+        for i in range(0, len(pt_cols)):
+            cell = 'A'+str(i+1)
+            worksheet.write(cell, str(pt_cols[i]))
+        for i in range(0, len(pt_info[0])):
+            cell = 'B'+str(i+1)
+            worksheet.write(cell, str(pt_info[0][i]))
+
+    if diagnoses_store!={}:
+        worksheet.write('D1', "Diagnoses")
+        worksheet.write('E1', "Notes")
+        count = 0
+        for diag in (diag_keys):
+            cell = 'D'+str(count+2)
+            worksheet.write(cell, str(diag))
+            count = count+1
+        count = 0
+        for val in (diag_vals):
+            cell = 'E'+str(count+2)
+            worksheet.write(cell, str(val))
+            count = count+1
+
+    if meds_store!=[]:
+        for i in range(0, len(meds_store)):
+            worksheet.write('G1', "Meds")
+            cell = 'G'+str(i+2)
+            worksheet.write(cell, str(meds_store[i]))
+
+    if vitals_store!=[]:
+        for i in range(0, len(vitals_cols)):
+            cell = 'I'+str(i+1)
+            worksheet.write(cell, str(vitals_cols[i]))
+
+        asc = 74
+        for i in range(0, len(vitals_store)):
+            for j in range(0, len(vitals_store[0])):
+                cell = str(chr(asc)+str(j+1))
+                worksheet.write(cell, str(vitals_store[i][j]))
+            asc = asc+1
+
+    workbook.close()
+    st.download_button(
+        label="Download Excel workbook",
+        data=output.getvalue(),
+        file_name="DowntimeProRecord.xlsx",
+        mime="application/vnd.ms-excel"
+    )   
 
 st.set_page_config(page_title="EHR Data Transfer", page_icon="🖥️")
 st.markdown("# EHR Data Transfer")
