@@ -39,6 +39,7 @@ def pt_dem() -> None:
     st.subheader("Address")
     st_address = st.text_input("Street Address")
     city = st.text_input("City")
+    state = st.text_input("State")
     zip_code = st.text_input("Zip Code")
 
     ## next line is a spacer
@@ -49,7 +50,7 @@ def pt_dem() -> None:
 
     if (st.button("Save")):
         # rework following line so that multiple entries for the same pt can't be saved in the pt_info list
-        pt_info.append([fname, lname, dob, ethnicity_race, age, gender, height, weight, st_address, city, zip_code, insurance_provider, insurance_num])
+        pt_info.append([fname, lname, dob, ethnicity_race, age, gender, height, weight, st_address, city, state, zip_code, insurance_provider, insurance_num])
 st.set_page_config(page_title="Patient Information", page_icon="🧑")
 st.markdown("# Patient Information")
 

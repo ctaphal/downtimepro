@@ -22,7 +22,7 @@ from storage import diagnoses_store
 from storage import vitals_store
 from storage import meds_store
 
-pt_cols = ["First Name", "Last Name", "DOB", "Ethnicity/Race", "Age", "Gender", "Height (in)", "Weight (lbs)", "Street Address", "City", "Zip Code", "Insurance Provider", "Insurance Member ID" ]
+pt_cols = ["First Name", "Last Name", "DOB", "Ethnicity/Race", "Age", "Gender", "Height (in)", "Weight (lbs)", "Street Address", "City", "State", "Zip Code", "Insurance Provider", "Insurance Member ID" ]
 vitals_cols = ["Date", "Time", "HR", "BP", "SpO2", "Respirations", "Notes"]
 diag_keys = list(diagnoses_store.keys())
 diag_vals = list(diagnoses_store.values())
